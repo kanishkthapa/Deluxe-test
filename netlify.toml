@@ -1,24 +1,31 @@
+# Base settings for the Netlify site
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# Headers to solve MIME type issues
 [[headers]]
-  for = "/*.js"
+  for = "/assets/*.js"
   [headers.values]
-    Content-Type = "text/javascript; charset=utf-8"
+    Content-Type = "text/javascript"
 
 [[headers]]
-  for = "/*.mjs"
+  for = "/assets/*.mjs"
   [headers.values]
-    Content-Type = "text/javascript; charset=utf-8"
-
+    Content-Type = "text/javascript"
+    
 [[headers]]
-  for = "/*.jsx"
+  for = "/assets/*.ts"
   [headers.values]
-    Content-Type = "text/javascript; charset=utf-8"
-
+    Content-Type = "text/javascript"
+    
 [[headers]]
-  for = "/*.ts"
+  for = "/assets/*.tsx"
   [headers.values]
-    Content-Type = "text/javascript; charset=utf-8"
+    Content-Type = "text/javascript"
 
-[[headers]]
-  for = "/*.tsx"
-  [headers.values]
-    Content-Type = "text/javascript; charset=utf-8"
+# This is important - it makes sure all routes go to index.html for a SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
