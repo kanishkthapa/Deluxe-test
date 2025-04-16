@@ -16,6 +16,9 @@ export async function generateToken() {
         .toISOString()
         .split("T")[0],
       description: "Auto Renewal for the Quote",
+      managementUrl: "https://test.com",
+      billingAgreement: "test",
+      intervals: 5,
     },
   })
     .setProtectedHeader({ alg: "HS256" })
