@@ -18,7 +18,8 @@ export async function generateToken() {
         .split("T")[0],
       description: "Auto Renewal for the Quote",
       managementUrl: "https://test.com",
-      billingAgreement: "test",
+      billingAgreement:
+        "I agree to the terms and conditions from test company.",
       intervals: 5,
     },
   })
