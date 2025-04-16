@@ -9,10 +9,11 @@ export async function generateToken() {
     accessToken: import.meta.env.VITE_ACCESS_TOKEN,
     amount: 26.05,
     transactionReference: transactionId,
+    hideCancelButton: true,
     recurring: {
       frequency: "daily",
-      start_date: new Date().toISOString().split("T")[0],
-      end_date: new Date(new Date().setDate(new Date().getDate() + 5))
+      startDate: new Date().toISOString().split("T")[0],
+      endDate: new Date(new Date().setDate(new Date().getDate() + 5))
         .toISOString()
         .split("T")[0],
       description: "Auto Renewal for the Quote",
