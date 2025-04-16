@@ -7,7 +7,7 @@ export async function generateToken() {
   const secret = new TextEncoder().encode(import.meta.env.VITE_JWT_SECRET);
   const jwt = await new SignJWT({
     accessToken: import.meta.env.VITE_ACCESS_TOKEN,
-    amount: 26.05,
+    amount: 1.05,
     transactionReference: transactionId,
     hideCancelButton: true,
     hideaddresspanel: true,
