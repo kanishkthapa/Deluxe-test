@@ -9,6 +9,14 @@ export async function generateToken() {
     accessToken: import.meta.env.VITE_ACCESS_TOKEN,
     amount: 26.05,
     transactionReference: transactionId,
+    recurring: {
+      frequency: "daily",
+      start_date: new Date().toISOString().split("T")[0],
+      end_date: new Date(new Date().setDate(new Date().getDate() + 5))
+        .toISOString()
+        .split("T")[0],
+      description: "Auto Renewal for the Quote",
+    },
   })
     .setProtectedHeader({ alg: "HS256" })
     .sign(secret);
