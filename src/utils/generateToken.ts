@@ -10,6 +10,10 @@ export async function generateToken() {
     amount: 26.05,
     transactionReference: transactionId,
     hideCancelButton: true,
+    hideaddresspanel: true,
+    hidetermsandconditions: true,
+    hideGooglePayButton: true,
+    hideApplePayButton: true,
     recurring: {
       frequency: "daily",
       startDate: new Date().toISOString().split("T")[0],
