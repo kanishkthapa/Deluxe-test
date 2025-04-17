@@ -4,8 +4,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const transactionId = urlParams.get("id") || "default-transaction";
 
 console.log("transactionId", transactionId);
-console.log("POLICY_API_URL", import.meta.env.POLICY_API_URL);
-console.log("API_KEY", import.meta.env.API_KEY);
+console.log("POLICY_API_URL", process.env.POLICY_API_URL);
+console.log("API_KEY", process.env.API_KEY);
 
 const config = {
   method: "get",
