@@ -6,9 +6,9 @@ async function fetchPurchase(): Promise<string | undefined> {
   const urlParams = new URLSearchParams(window.location.search);
   const transactionId = urlParams.get("id") || "default-transaction";
 
-  const apiUrl =
-    import.meta.env.VITE_POLICY_API_URL ||
-    "https://subtle-caring-walleye.ngrok-free.app";
+  //   const apiUrl =
+  //     import.meta.env.VITE_POLICY_API_URL ||
+  //     "https://subtle-caring-walleye.ngrok-free.app";
   const apiKey =
     import.meta.env.VITE_API_KEY ||
     "pk_live_$2a$10$KEAlp9JsgAD6zlWWFNIYDuPMR/tVJTNwxNutBvpKM7vKXZh16TsdG";
@@ -16,7 +16,7 @@ async function fetchPurchase(): Promise<string | undefined> {
   const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `${apiUrl}/purchases/${transactionId}`,
+    url: `/api/purchases/${transactionId}`,
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "ngrok-skip-browser-warning": "true",
