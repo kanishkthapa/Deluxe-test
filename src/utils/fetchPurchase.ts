@@ -8,9 +8,9 @@ console.log("transactionId", transactionId);
 const config = {
   method: "get",
   maxBodyLength: Infinity,
-  url: `${process.env.POLICY_API_URL}/purchases/${transactionId}`,
+  url: `${import.meta.env.POLICY_API_URL}/purchases/${transactionId}`,
   headers: {
-    Authorization: `Bearer ${process.env.API_KEY}`,
+    Authorization: `Bearer ${import.meta.env.API_KEY}`,
   },
 };
 
