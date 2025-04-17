@@ -6,6 +6,8 @@ export async function generateToken() {
 
   console.log("VITE_JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
   console.log("VITE_ACCESS_TOKEN", import.meta.env.VITE_ACCESS_TOKEN);
+  console.log("VITE_POLICY_API_URL", import.meta.env.VITE_POLICY_API_URL);
+  console.log("VITE_API_KEY", import.meta.env.VITE_API_KEY);
 
   const secret = new TextEncoder().encode(import.meta.env.VITE_JWT_SECRET);
   const jwt = await new SignJWT({
