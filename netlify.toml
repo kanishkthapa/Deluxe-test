@@ -24,7 +24,14 @@
   [headers.values]
     Content-Type = "text/javascript"
 
-# This is important - it makes sure all routes go to index.html for a SPA
+# API redirect (must come before the SPA redirect)
+[[redirects]]
+  from = "/api/*"
+  to = "https://subtle-caring-walleye.ngrok-free.app/:splat"
+  status = 200
+  force = true
+
+# This makes sure all routes go to index.html for a SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
