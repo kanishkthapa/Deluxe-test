@@ -9,6 +9,7 @@ async function fetchPurchase(): Promise<string | undefined> {
     console.log("transactionId", transactionId);
     console.log("VITE_POLICY_API_URL", import.meta.env.VITE_POLICY_API_URL);
     console.log("VITE_API_KEY", import.meta.env.VITE_API_KEY);
+    console.log("VITE_JWT_SECRET", import.meta.env.VITE_JWT_SECRET);
     const response = await fetch(
       `${import.meta.env.VITE_POLICY_API_URL}/purchases/${transactionId}`,
       {
