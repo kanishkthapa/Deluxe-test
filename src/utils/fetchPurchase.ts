@@ -17,8 +17,8 @@ const config = {
 async function fetchPurchase(): Promise<string | undefined> {
   try {
     const response = await axios.request(config);
-    console.log(JSON.stringify(response.data));
-    return response.data.jwt;
+    console.log("response from fetchPurchase", JSON.stringify(response.data));
+    return response.data?.payment_gateway?.embedded_payment_config?.jwt;
   } catch (error) {
     console.log(error);
   }

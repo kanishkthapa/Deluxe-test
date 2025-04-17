@@ -10,8 +10,10 @@ export function App() {
     // call the fetch purchase API to get the jwt
     fetchPurchase().then((jwt: string | undefined) => {
       if (jwt) {
+        console.log("setting purchase jwt", jwt);
         setJwt(jwt);
       } else {
+        console.log("generating new token");
         generateToken().then(setJwt);
       }
     });
