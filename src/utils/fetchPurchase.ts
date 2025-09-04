@@ -16,7 +16,7 @@ async function fetchPurchase(): Promise<string | undefined> {
   const config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `/api/purchases/${transactionId}`,
+    url: `/purchases/${transactionId}`,
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "ngrok-skip-browser-warning": "true",
