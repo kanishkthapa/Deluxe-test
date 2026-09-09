@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_POLICY_API_URL: string;
+  /** Bearer pk_live_… key for GET /purchases/:id */
   readonly VITE_API_KEY: string;
 }
 

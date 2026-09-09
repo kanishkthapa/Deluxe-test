@@ -1,17 +1,5 @@
 import axios from "axios";
 
-function getPurchaseApiUrl(purchaseId: string): string {
-  const policyApiUrl = import.meta.env.VITE_POLICY_API_URL?.replace(/\/$/, "");
-
-  if (policyApiUrl) {
-    // Production/staging: call policy-api directly (set in Netlify env at build time).
-    return `${policyApiUrl}/purchases/${purchaseId}`;
-  }
-
-  // Local dev: vite.config.ts proxies /api/* to VITE_POLICY_API_URL or ngrok.
-  return `/api/purchases/${purchaseId}`;
-}
-
 async function fetchPurchase(): Promise<string> {
   const urlParams = new URLSearchParams(window.location.search);
   const purchaseId = urlParams.get("id");
@@ -26,20 +14,17 @@ async function fetchPurchase(): Promise<string> {
     import.meta.env.VITE_API_KEY ||
     "pk_live_$2a$10$KEAlp9JsgAD6zlWWFNIYDuPMR/tVJTNwxNutBvpKM7vKXZh16TsdG";
 
-  const purchaseUrl = getPurchaseApiUrl(purchaseId);
-  const policyApiUrl = import.meta.env.VITE_POLICY_API_URL?.replace(/\/$/, "");
+  // Same-origin /api avoids browser CORS. Proxied at runtime via POLICY_API_URL
+  // (Netlify edge function or vite dev server) — ngrok or staging, no redeploy to switch.
+  const purchaseUrl = `/api/purchases/${purchaseId}`;
 
-  const headers: Record<string, string> = {
-    Authorization: `Bearer ${apiKey}`,
-  };
-
-  // Only needed for local dev when the vite proxy targets ngrok.
-  // Staging/prod policy-api CORS does not allow this custom header.
-  if (!policyApiUrl) {
-    headers["ngrok-skip-browser-warning"] = "true";
-  }
-
-  const response = await axios.get(purchaseUrl, { headers });
+  const response = await axios.get(purchaseUrl, {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      // Forwarded server-side by the proxy when the target is ngrok.
+      "ngrok-skip-browser-warning": "true",
+    },
+  });
 
   const purchase = response.data;
   console.log("response from fetchPurchase", JSON.stringify(purchase));
@@ -47,7 +32,7 @@ async function fetchPurchase(): Promise<string> {
   if (typeof purchase !== "object" || purchase === null) {
     throw new Error(
       `Expected JSON from ${purchaseUrl} but got ${typeof purchase}. ` +
-        "Check VITE_POLICY_API_URL (Netlify) or the /api dev proxy (local)."
+        "Check VITE_POLICY_API_URL is set in Netlify and redeploy, or vite proxy locally."
     );
   }
 
