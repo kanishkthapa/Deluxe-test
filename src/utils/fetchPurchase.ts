@@ -27,12 +27,19 @@ async function fetchPurchase(): Promise<string> {
     "pk_live_$2a$10$KEAlp9JsgAD6zlWWFNIYDuPMR/tVJTNwxNutBvpKM7vKXZh16TsdG";
 
   const purchaseUrl = getPurchaseApiUrl(purchaseId);
-  const response = await axios.get(purchaseUrl, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "ngrok-skip-browser-warning": "true",
-    },
-  });
+  const policyApiUrl = import.meta.env.VITE_POLICY_API_URL?.replace(/\/$/, "");
+
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+  };
+
+  // Only needed for local dev when the vite proxy targets ngrok.
+  // Staging/prod policy-api CORS does not allow this custom header.
+  if (!policyApiUrl) {
+    headers["ngrok-skip-browser-warning"] = "true";
+  }
+
+  const response = await axios.get(purchaseUrl, { headers });
 
   const purchase = response.data;
   console.log("response from fetchPurchase", JSON.stringify(purchase));
