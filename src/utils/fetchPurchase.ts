@@ -1,5 +1,17 @@
 import axios from "axios";
 
+function getPurchaseApiUrl(purchaseId: string): string {
+  const policyApiUrl = import.meta.env.VITE_POLICY_API_URL?.replace(/\/$/, "");
+
+  if (policyApiUrl) {
+    // Production/staging: call policy-api directly (set in Netlify env at build time).
+    return `${policyApiUrl}/purchases/${purchaseId}`;
+  }
+
+  // Local dev: vite.config.ts proxies /api/* to VITE_POLICY_API_URL or ngrok.
+  return `/api/purchases/${purchaseId}`;
+}
+
 async function fetchPurchase(): Promise<string> {
   const urlParams = new URLSearchParams(window.location.search);
   const purchaseId = urlParams.get("id");
@@ -14,8 +26,8 @@ async function fetchPurchase(): Promise<string> {
     import.meta.env.VITE_API_KEY ||
     "pk_live_$2a$10$KEAlp9JsgAD6zlWWFNIYDuPMR/tVJTNwxNutBvpKM7vKXZh16TsdG";
 
-  // "/api" is proxied to policy-api by netlify.toml (deploy) and vite.config.ts (dev).
-  const response = await axios.get(`/api/purchases/${purchaseId}`, {
+  const purchaseUrl = getPurchaseApiUrl(purchaseId);
+  const response = await axios.get(purchaseUrl, {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "ngrok-skip-browser-warning": "true",
@@ -27,8 +39,8 @@ async function fetchPurchase(): Promise<string> {
 
   if (typeof purchase !== "object" || purchase === null) {
     throw new Error(
-      `Expected JSON from /api/purchases/${purchaseId} but got ${typeof purchase}. ` +
-        "The /api proxy to policy-api is probably not applied."
+      `Expected JSON from ${purchaseUrl} but got ${typeof purchase}. ` +
+        "Check VITE_POLICY_API_URL (Netlify) or the /api dev proxy (local)."
     );
   }
 

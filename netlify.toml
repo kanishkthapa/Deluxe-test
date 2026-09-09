@@ -24,12 +24,13 @@
   [headers.values]
     Content-Type = "text/javascript"
 
-# API redirect (must come before the SPA redirect)
-[[redirects]]
-  from = "/api/*"
-  to = "https://subtle-caring-walleye.ngrok-free.app/:splat"
-  status = 200
-  force = true
+# Optional /api proxy for local-style deploys without VITE_POLICY_API_URL.
+# When VITE_POLICY_API_URL is set at build time, the app calls policy-api directly instead.
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://your-policy-api.example.com/:splat"
+#   status = 200
+#   force = true
 
 # This makes sure all routes go to index.html for a SPA
 [[redirects]]
